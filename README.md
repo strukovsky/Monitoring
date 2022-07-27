@@ -20,7 +20,7 @@ apt-get update
 apt-get install golang-go
 apt install golang-go
 make build
-./node_exporter --collector.systemd --collector.processes
+./node_exporter --collector.systemd --collector.processes &
 ```
 Note: to restart/stop node exporter: 
 `systemctl stop prometheus-node-exporter.service`
@@ -30,7 +30,7 @@ Note: to restart/stop node exporter:
 ```shell
 apt install prometheus
 systemctl stop prometheus
-prometheus --config.file=/prometheus.yml
+prometheus --config.file=/prometheus.yml &
 ```
 ### Install and start grafana
 ```shell

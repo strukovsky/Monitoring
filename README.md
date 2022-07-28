@@ -25,6 +25,22 @@ make build
 Note: to restart/stop node exporter: 
 `systemctl stop prometheus-node-exporter.service`
 
+### Install and start cAdvisor
+```shell
+VERSION=v0.36.0 # use the latest release version from https://github.com/google/cadvisor/releases
+sudo docker run \
+  --volume=/:/rootfs:ro \
+  --volume=/var/run:/var/run:ro \
+  --volume=/sys:/sys:ro \
+  --volume=/var/lib/docker/:/var/lib/docker:ro \
+  --volume=/dev/disk/:/dev/disk:ro \
+  --publish=8080:8080 \
+  --detach=true \
+  --name=cadvisor \
+  --privileged \
+  --device=/dev/kmsg \
+  gcr.io/cadvisor/cadvisor:$VERSION
+```
 
 ### Install and start prometheus
 ```shell
@@ -49,9 +65,16 @@ systemctl start grafana-server
 3) Give url IP_ADDRESS:9090
 4) Press Save and test in the bottom of form
 
-### Add dashboard
-1) Go to https://grafana.com/grafana/dashboards/ to find interesting one (e.g. https://grafana.com/grafana/dashboards/1860),
-2) Remember its id (e.g. 1860)
+### Add dashboard for node exporter
+1) Go to https://grafana.com/grafana/dashboards/ to find interesting one (e.g. https://grafana.com/grafana/dashboards/11074),
+2) Remember its id (e.g. 11074)
+3) Go to IP_ADDRESS:3000/dashboard/import and specify this id
+4) Provide Prometheus datasource
+5) Save dashboard
+
+### Add dashboard for cAdvisor
+1) Go to https://grafana.com/grafana/dashboards/ to find interesting one (e.g. https://grafana.com/grafana/dashboards/14282),
+2) Remember its id (e.g. 14282)
 3) Go to IP_ADDRESS:3000/dashboard/import and specify this id
 4) Provide Prometheus datasource
 5) Save dashboard
